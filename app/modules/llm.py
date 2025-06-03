@@ -7,7 +7,7 @@ from pathlib import Path
 
 from app.types.exceptions import APIKeyNotFoundError, InvalidModelProviderError
 from app.constants import constants
-from app.modules.prompts import user_template, system_template
+from app.modules.prompts import user_template, system_template, user_template_2, system_template_2
 from app.modules.utils import read_doc
 
 load_dotenv(override=True, verbose=True)
@@ -36,4 +36,4 @@ class Llm:
         )
 
         response = self.model.invoke(prompt)
-        return response.content
+        return response.content, number_of_questions
