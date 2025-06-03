@@ -1,7 +1,7 @@
 from app.constants import constants
 from app.sandbox.check_llm import invoke
 from app.modules.llm import Llm
-from app.modules.prompts import user_template, system_template, user_template_2, system_template_2
+from app.modules.prompts import qa_user_template, qa_system_template, qa_user_template, qa_system_template
 from app.modules.utils import write_to_file
 import os
 
@@ -11,8 +11,8 @@ def run_app(n):
         topic_name="Choreo concepts",
         documentation_excerpt=os.path.join('output', 'concatenations', 'choreo-concepts.md'),
         number_of_questions=n,
-        system_template=system_template_2,
-        user_template=user_template_2
+        system_template=qa_system_template,
+        user_template=qa_user_template
     )
     write_to_file(
         directory=os.path.join('output', 'questions-and-answers', 'choreo-concepts'),
