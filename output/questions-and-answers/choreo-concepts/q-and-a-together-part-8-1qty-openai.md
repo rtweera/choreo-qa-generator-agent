@@ -1,0 +1,3 @@
+1. **Question**: What are the two main types of services categorized in the Choreo Marketplace, and how do they differ from one another?
+
+   **Answer**: The two main types of services in the Choreo Marketplace are "Internal" and "Third-party". "Internal" services refer to those that are deployed within Choreo, while "Third-party" services refer to services that run externally to Choreo and have been independently added to the Marketplace. This distinction helps users filter through services based on their origin and accessibility.

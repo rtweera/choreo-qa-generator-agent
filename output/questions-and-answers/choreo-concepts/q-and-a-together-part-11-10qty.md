@@ -1,0 +1,41 @@
+Here are 10 questions and answers about the platform's concepts, based on the provided information:
+
+1.  **Question:** I'm looking for existing services that I can potentially reuse in my application. Where can I find these services, and how can I search through them effectively?
+
+    **Answer:** You can find existing services in the platform's Marketplace. The Marketplace lists all services deployed within your organization. To search effectively, you can use the search bar at the top. You can search by the service's Name, Labels associated with the service, the Content (like the overview, summary, or documentation), or search Across All of these attributes simultaneously.
+
+2.  **Question:** My team is building a new service, and we want other teams in our organization to be able to discover and use it. How do we make our service available in the Marketplace for others?
+
+    **Answer:** When you deploy your service component to its initial environment, the service endpoints exposed through the platform are automatically added to the Marketplace. The platform collects essential details like the component name, endpoint name, description, and service definitions during this initial deployment to create the service entry. The service will appear with a name following the convention "component name - endpoint name".
+
+3.  **Question:** I'm developing a component that needs to connect to another service that's already deployed on the platform. What is the recommended way to establish this integration, and how does my component get the necessary connection details at runtime?
+
+    **Answer:** The recommended way to integrate with other services on the platform or external resources is by using "Connections". You create a Connection to the target service, and the platform provides you with a Connection ID and associated parameters. You then configure your component to use this Connection ID and map the connection parameters to environment variables within your component. At runtime, the platform dynamically injects the actual parameter values into these environment variables, allowing your service code to read them and establish the programmatic connection.
+
+4.  **Question:** We have multiple microservices that together form a single application. How should we structure these services within the platform to manage them as a coherent unit, especially regarding deployment and resource isolation?
+
+    **Answer:** You should group these related microservices as "Components" within a single "Project". A Project is designed as a logical grouping for components that typically constitute a single cloud-native application. All components within a Project can reside in the same Git repository (monorepo) or different repositories. At deployment time, all components within a Project are deployed into a single Kubernetes namespace, providing a level of isolation and allowing them to be managed together. This aligns with a Cell-based architecture concept.
+
+5.  **Question:** We follow a CI/CD practice and deploy our applications through multiple stages (e.g., dev, staging, prod). How does the platform support this promotion workflow, and what happens to the application image across these stages?
+
+    **Answer:** The platform supports this using a "build once, deploy many" strategy across "Environments". Your application component is built only once for a specific code version (a Git commit). This built container image is then promoted from lower environments (like development) to subsequent higher environments (like production). This ensures that the exact same tested image is deployed across all stages, maintaining consistency. Configurations and secrets specific to each environment are injected at runtime, keeping them separate from the built image.
+
+6.  **Question:** We have sensitive configurations like database credentials and API keys that vary between our development and production environments. How should we handle these secrets and configurations securely within the platform's deployment process?
+
+    **Answer:** The platform provides a secure way to manage environment-specific configurations and secrets. These sensitive values are maintained at the "Environment" level, separate from your source code. The platform injects these configurations and secrets into your components at runtime. They are stored in a secure vault, encrypted at rest and in transit. This ensures a strict separation of environment-specific settings from your application code, enhancing security and maintainability.
+
+7.  **Question:** My organization requires deploying applications on our own infrastructure (on-premises or in our private cloud VPC) rather than using a shared cloud environment. Does the platform support this, and what are the key components involved in such a deployment?
+
+    **Answer:** Yes, the platform supports deploying applications on your own infrastructure through "Private Data Planes (PDP)". A PDP provides dedicated infrastructure for your organization. The core requirements for a PDP include compatible Kubernetes clusters, a container registry, a secret store (key vault), and a logging service. Setting up a PDP involves installing platform system components like API Gateways, agents, and observability components via a Helm installation on your Kubernetes infrastructure. The PDP communicates outbound to the platform's control plane for management tasks.
+
+8.  **Question:** When browsing services in the Marketplace, I see different versions displayed, but they only show the major version (e.g., v1, v2). If a service has minor or patch updates (like v1.1, v1.2, v1.3), how does the platform handle this, and how does it affect my component that consumes that service?
+
+    **Answer:** In the Marketplace, service versions are displayed in their major version format (e.g., v1, v2). Each displayed version represents the *latest* minor or patch version within that major version range (e.g., v1 represents the latest of v1.0, v1.1, v1.2, etc.). When you use a service from the Marketplace as a dependency via a Connection, the platform uses "semantic-version-based intelligent routing". This means your component will automatically route traffic to the latest deployed version of the dependency within the same major version you connected to. If the dependency releases a new minor version (e.g., v1.3), your component consuming v1 will automatically start using v1.3 without requiring you to manually update the connection configuration.
+
+9.  **Question:** We need to manage access and permissions for different users within our organization on the platform. How does the platform handle user roles and permissions?
+
+    **Answer:** The platform manages user permissions using "Groups" and "Roles". An "Organization" is the logical grouping of users and resources. "Roles" define specific sets of permissions (e.g., Admin, API Publisher, Developer). "Groups" are collections of users, and roles are assigned to groups. Users added to a group inherit the permissions associated with the roles assigned to that group. The platform provides several predefined groups with common roles, but you can also create new groups and assign roles as needed.
+
+10. **Question:** We want to set up a robust deployment pipeline that ensures zero downtime when we release updates to our services. Does the platform support this, and what mechanisms are used?
+
+    **Answer:** Yes, the platform is designed to support zero-downtime deployments through "rolling updates". When a new version of your component is deployed or promoted, the platform performs a rolling update. This process typically involves gradually replacing instances of the old version with instances of the new version. A crucial part of this is the health check: the platform waits for the new build to pass its configured health checks before traffic is fully switched away from the old version. This prevents unhealthy versions from being deployed or promoted and ensures continuous availability during the update.
