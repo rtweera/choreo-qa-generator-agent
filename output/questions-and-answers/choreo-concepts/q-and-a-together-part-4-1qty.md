@@ -1,0 +1,9 @@
+Here is a question and answer about Choreo concepts:
+
+1.  **Question:** As a developer, I'm building an application with multiple services. I need to understand how these services are organized, where they run, and how I can manage their deployment through different stages like development and production. Can you explain the key concepts of how components, projects, environments, and data planes fit together in this platform?
+
+    **Answer:** Absolutely. Think of it like building and deploying your application within a structured system. Your individual services or microservices are represented as **Components**. These components are the smallest deployable units. A group of related components that form a single application are bundled together into a **Project**. Projects provide a logical boundary for your application.
+
+    Within a project, you have one or more **Environments**, such as 'development' or 'production'. These environments are isolated spaces where you can deploy and test your components. An environment is essentially linked to a **Data Plane**, which is the underlying infrastructure layer (like a Kubernetes cluster) where your components actually run.
+
+    So, the hierarchy is: Components are part of a Project. Projects have Environments. Environments are hosted on Data Planes. When you deploy a component, you target a specific environment within your project, and that component runs as a container (like a Kubernetes pod) within the data plane associated with that environment. This structure ensures isolation between stages and provides a clear path for promoting tested builds from lower environments to higher ones.
