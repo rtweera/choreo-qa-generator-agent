@@ -33,7 +33,7 @@ topic_extraction_system_prompt = (
     "covered in the documentation. Your goal is to break down the content into smaller, meaningful units or topics "
     "that can each be explored independently for further question generation. "
     "Make sure the topics are specific, non-overlapping as much as possible, and collectively cover the full scope "
-    "of the documentation. Avoid generic or vague topic names. Output only the list of topics."
+    "of the documentation. Avoid generic or vague topic names. Output only the list of topics in a json object called topics."
 )
 
 topic_extraction_user_prompt_template = (
@@ -43,9 +43,9 @@ topic_extraction_user_prompt_template = (
     "Instructions:\n"
     "Analyze the above content and return a list of specific, clearly defined subtopics that comprehensively cover "
     "the full scope of the documentation. The topics should be:\n"
-    "- Granular and descriptive enough to be the focus of 2–3 in-depth Q&A each.\n"
+    "- Granular and descriptive enough to be the focus of 3-5 in-depth Q&A each.\n"
     "- Directly based on the material in the documentation.\n"
     "- Not repetitive or overly broad.\n\n"
-    "Return only the list of topics in JSON array format, like this:\n"
-    "[\n  \"Topic 1\",\n  \"Topic 2\",\n  ...\n]"
+    "Return only the list of topics in JSON object format, like this:\n"
+    "'topics': [\n  \"Topic 1\",\n  \"Topic 2\",\n  ...\n]\n"
 )
