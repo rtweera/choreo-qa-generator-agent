@@ -52,7 +52,7 @@ class Llm:
 
         parser = PydanticOutputParser(pydantic_object=TopicList)
 
-        chain: Runnable = prompt | self.model | parser
+        chain: Runnable = prompt_template | self.model | parser
 
         result = chain.invoke(
             {
@@ -60,4 +60,4 @@ class Llm:
                 "title": documentation_excerpt.stem
             }
         )
-        return result.topics
+        return "\n".join(result.topics)
