@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import json
+from typing import Union
 
 def read_doc(filepath: str) -> str:
     """Read the content of a file and return it as a string."""
@@ -11,7 +12,7 @@ def read_doc(filepath: str) -> str:
     return content.strip()
 
 
-def write_to_file(directory: Path, content: str, number_of_questions: int):
+def write_to_file(directory: Path, content: str, number_of_questions: Union[int, None]):
     """
     Writes the given content to a file at the specified path.
     
@@ -41,7 +42,10 @@ def write_to_file(directory: Path, content: str, number_of_questions: int):
         # write the updated index content back to the index file    
         json.dump(index_content, index_file, indent=4)
 
-    file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}-{number_of_questions}qty.md")
+    if number_of_questions is int:
+        file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}-{number_of_questions}qty.md")
+    elif number_of_questions is None:
+        file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}.md")
 
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
