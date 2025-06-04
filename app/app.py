@@ -2,8 +2,9 @@ from app.constants import constants
 from app.sandbox.check_llm import invoke
 from app.modules.llm import Llm
 from app.modules.prompts import qa_user_template, qa_system_template, topic_extraction_system_prompt, topic_extraction_user_prompt_template
-from app.modules.utils import write_to_file
+from app.modules.utils import write_to_file, read_doc
 from app.modules.loop_topics import loop_topics
+from app.modules.format_qa import format_qa
 
 import os
 from pathlib import Path
@@ -38,8 +39,13 @@ def run_app(n: int = None):
             number_of_questions=number_of_questions
         )
         print(f"Generated Questions:\n{result}")
-    elif isinstance(n, int) and n <= 0:
+    elif isinstance(n, int) and n == 0:
         topics_path = Path('output') / 'topics' / 'choreo-concepts' / 'topics-part-1.md'
         loop_topics(topics_path=topics_path)
+    elif isinstance(n, int) and n == -1:
+        format_qa(
+            markdown_content=read_doc(Path('output') / 'questions-and-answers' / 'choreo-concepts' / 'q-and-a-together-part-13-114qty.md'),
+            output_file=Path('output') / 'formatted-questions-and-answers' / 'choreo-concepts' / 'fmt-q-and-a-together-part-13-114qty.jsonl'
+        )
     else:
         raise ValueError("Number of questions must be greater than 0 or None.")
