@@ -5,4 +5,4 @@ runtime_config = {
 }
 
 if __name__=='__main__':
-    run_app(1)
+    run_app()
