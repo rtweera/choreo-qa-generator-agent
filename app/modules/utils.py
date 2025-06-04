@@ -37,15 +37,15 @@ def write_to_file(directory: Path, content: str, number_of_questions: Union[int,
             index_content['filename_prefix'] = index_content.get('filename_prefix', 'file')
         except json.JSONDecodeError:
             raise ValueError(f"Invalid JSON in index file: {index_path}. Please check the file content.")
-        
-    with open(os.path.join(directory, 'index.json'), 'w', encoding='utf-8') as index_file:
-        # write the updated index content back to the index file    
-        json.dump(index_content, index_file, indent=4)
 
-    if number_of_questions is int:
-        file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}-{number_of_questions}qty.md")
-    elif number_of_questions is None:
+    if number_of_questions is None:
         file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}.md")
+    elif isinstance(number_of_questions, int):
+        file_path = os.path.join(directory, f"{index_content['filename_prefix']}-part-{index_content['i']}-{number_of_questions}qty.md")
 
     with open(file_path, 'w', encoding='utf-8') as file:
         file.write(content)
+
+    with open(os.path.join(directory, 'index.json'), 'w', encoding='utf-8') as index_file:
+        # write the updated index content back to the index file    
+        json.dump(index_content, index_file, indent=4)
